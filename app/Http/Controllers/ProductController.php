@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -47,8 +48,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        // return $product;
-        return new ProductResource($product);
+          return new ProductResource($product);
     }
 
 
@@ -77,3 +77,4 @@ class ProductController extends Controller
         ], Response::HTTP_NO_CONTENT);
     }
 }
+
