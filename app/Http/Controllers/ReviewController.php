@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Product;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\Review\ReviewResource;
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+
+    public function index(Product $product)
     {
-        //
+       return $product->reviews;
+        // return ReviewResource::collection($product->reviews);
     }
 
     /**
@@ -35,7 +34,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return "testmessage";
     }
 
     /**
