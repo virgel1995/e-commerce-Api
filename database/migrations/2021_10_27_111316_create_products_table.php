@@ -20,6 +20,8 @@ class CreateProductsTable extends Migration
             $table->double('price')->nullable();
             $table->integer('stock')->nullable();
             $table->double('discount')->nullable();
+            $table->bigInteger('user_id')->unsigned()->index();
+            
             $table->timestamps();
         });
     }

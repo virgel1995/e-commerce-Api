@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ProductNotBelongsToUser;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
@@ -38,6 +39,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->discount = $request->discount;
+        $product->user_id = $request->user_id;
         $product->save();
         return response([
             'message' => 'Product Created Successfully',
@@ -60,6 +62,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        $this->productUserCheck($product);
         $request['detail'] = $request->description;
         unset($request['description']);
         $product->update($request->all());
@@ -71,10 +74,17 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        $this->productUserCheck($product);
         $product->delete();
         return response([
             'message' => 'Product Deleted Successfully',
-        ], Response::HTTP_NO_CONTENT);
+        ], Response::HTTP_OK);
+    }
+
+    public function productUserCheck($product){
+        if(auth()->id() !== $product->user_id){
+            throw new ProductNotBelongsToUser;
+        }
     }
 }
 
